@@ -29,48 +29,42 @@ Search functionality for finding posts quickly.
 
 
 # Installation
-PHP >= 8.1
-Composer
-Node.js >= 16.x
-MySQL
+- PHP >= 8.1
+- Composer
+- Node.js >= 16.x
+- MySQL
 
 
-Steps
-Clone the repository:
-
+# Steps
+- Clone the repository:
 
 git clone https://github.com/A7pro-fuad/my-test.git
-cd blog-management
-Install dependencies:
-composer install
-npm install && npm run dev
-Set up environment variables:
-Rename .env.example to .env and update database credentials.
+- cd blog-management
+# Install dependencies:
+- composer install
+- npm install && npm run dev
+- Set up environment variables:
+- Rename .env.example to .env and update database credentials.
 
 # Run migrations and seed the database:
 
 
-php artisan migrate --seed
-Generate the application key:
-
-
+- php artisan migrate --seed
+- Generate the application key
 php artisan key:generate
-Start the local development server:
-
-
-php artisan serve
-
+- Start the local development server:
+- php artisan serve
 
 # Usage
 - Admin Dashboard: /
-Access the admin panel to manage posts.
-email : "admin@admin.com"
-password : password
+- Access the admin panel to manage posts.
+- email : "admin@admin.com"
+- password : password
 
 - Users List: /
-Access the users to like posts.
-email : "user@user.com"
-password : password
+- Access the users to like posts.
+- email : "user@user.com"
+- password : password
 
 ## License
 
