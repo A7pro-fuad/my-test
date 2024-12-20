@@ -21,12 +21,14 @@
                             <!-- <router-link to="/" active-class="border-b-2 border-indigo-400" -->
                             <router-link :to="{ name: 'posts.index' }" active-class="border-b-2 border-indigo-400"
                                 class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
-                                Posts
+                                  {{ t("nav.Posts") }}
                             </router-link>
 
-                            <router-link v-if="can('posts.delete')" :to="{ name: 'posts.create' }" active-class="border-b-2 border-indigo-400"
+                            <router-link v-if="can('posts.delete')" :to="{ name: 'posts.create' }"
+                                active-class="border-b-2 border-indigo-400"
                                 class="inline-flex items-center px-1 pt-1 text-sm font-medium leading-5 text-gray-900 focus:outline-none focus:border-indigo-700 transition duration-150 ease-in-out">
-                                Create Post
+                                 {{ t("nav.CreatePost") }}
+
                             </router-link>
 
                         </div>
@@ -34,17 +36,32 @@
                     <div class="flex items-center">
                         <div class="flex">
                             <div>
-                                <div>Hi, {{ user.name }}</div>
+                                <div> {{ t("nav.Hi") }}, {{ user.name }}</div>
                                 <div class="text-sm text-gray-500">{{ user.email }}</div>
                             </div>
                             <div>
                                 <button @click="logout" type="button"
                                     class="inline-flex items-center px-4 py-2 bg-gray-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:shadow-outline-gray transition ease-in-out duration-150 ml-4"
                                     :class="{ 'opacity-25': processing }" :disabled="processing">
-                                    Log out
+                                     {{ t("nav.LogOut") }}
                                 </button>
                             </div>
+
+
+
                         </div>
+
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <label for="locale-select" class="text-sm font-medium text-gray-700">Language:</label>
+                        <select v-model="locale"
+                            class="block w-32 px-2 py-1 rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+
+                            <option v-for="locale in availableLocales" :key="`locale-${locale}`" :value="locale">
+                                {{ locale }}
+                            </option>
+
+                        </select>
                     </div>
                 </div>
             </div>
@@ -81,8 +98,13 @@ import { useRoute } from 'vue-router'
 import useAuth from '@/composables/auth';
 import { useAbility } from '@casl/vue'
 
+import { useI18n } from 'vue-i18n'
+
+const { t, locale, availableLocales } = useI18n({ useScope: 'global' })
 const route = useRoute()
 const { user, processing, logout } = useAuth()
 const currentPageTitle = computed(() => route.meta.title)
 const { can } = useAbility()
+
+
 </script>

@@ -1,10 +1,10 @@
-
 <template>
     <div v-if="can('posts.delete')" class="overflow-hidden overflow-x-auto p-6 bg-white border-gray-200">
         <div class="min-w-full align-middle">
-
+            <!-- {{ locale }} -->
+            <!-- <h1>{{ t("hello") }}</h1> -->
             <div class="mb-4 grid lg:grid-cols-4">
-                <input v-model="search_global" type="text" placeholder="Search..."
+                <input v-model="search_global" type="text" :placeholder="t('search_placeholder')"
                     class="inline-block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <table class="min-w-full divide-y divide-gray-200 border">
@@ -13,17 +13,17 @@
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <input v-model="search_id" type="text"
                                 class="inline-block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                placeholder="Filter by ID">
+                                :placeholder="t('filters.FilterbyID')">
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <input v-model="search_title" type="text"
                                 class="inline-block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                placeholder="Filter by Title">
+                                :placeholder="t('filters.FilterByTitle')">
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <select v-model="search_category"
                                 class="inline-block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
-                                <option value="" selected>-- all categories --</option>
+                                <option value="" selected>{{ t('filters.AllCategories') }}</option>
                                 <option v-for="category in categories" :value="category.id">
                                     {{ category.name }}
                                 </option>
@@ -32,7 +32,7 @@
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <input v-model="search_content" type="text"
                                 class="inline-block w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                placeholder="Filter by Content">
+                                :placeholder="t('filters.FilterByContent')">
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left"></th>
                         <th class="px-6 py-3 bg-gray-50 text-left"></th>
@@ -43,7 +43,8 @@
                                 @click="updateOrdering('id')">
                                 <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
                                     :class="{ 'font-bold text-blue-600': orderColumn === 'id' }">
-                                    ID
+                                    {{ t('tableTitles.ID') }}
+                                    
                                 </div>
                                 <div class="select-none">
                                     <span :class="{
@@ -62,7 +63,8 @@
                                 @click="updateOrdering('title')">
                                 <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
                                     :class="{ 'font-bold text-blue-600': orderColumn === 'title' }">
-                                    Title
+                
+                                    {{ t("tableTitles.Title") }}
                                 </div>
                                 <div class="select-none">
                                     <span :class="{
@@ -79,18 +81,18 @@
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <span
-                                class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Category</span>
+                                class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">{{ t('tableTitles.Category') }}</span>
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <span
-                                class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Content</span>
+                                class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">{{ t('tableTitles.Content') }}</span>
                         </th>
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <div class="flex flex-row items-center justify-between cursor-pointer"
                                 @click="updateOrdering('created_at')">
                                 <div class="leading-4 font-medium text-gray-500 uppercase tracking-wider"
-                                    :class="{ 'font-bold text-blue-600': orderColumn === 'created_at' }">
-                                    Created at
+                                    :class="{ 'font-bold text-blue-600': orderColumn === 'created_at' }"> 
+                                    {{ t('tableTitles.CreatedAt') }}
                                 </div>
                                 <div class="select-none">
                                     <span :class="{
@@ -107,7 +109,7 @@
 
                         <th class="px-6 py-3 bg-gray-50 text-left">
                             <span
-                                class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">Actions</span>
+                                class="text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">{{ t('tableTitles.Actions') }}</span>
                         </th>
 
                     </tr>
@@ -134,9 +136,9 @@
                             <!-- <router-link :to="{ name: 'posts.edit', params: { id: post.id } }">Edit</router-link>
                             <a href="#" @click.prevent="deletePost(post.id)" class="ml-2">Delete</a> -->
                             <router-link v-if="can('posts.update')"
-                                :to="{ name: 'posts.edit', params: { id: post.id } }">Edit</router-link>
+                                :to="{ name: 'posts.edit', params: { id: post.id } }">{{ t("tableActions.Edit") }}</router-link>
                             <a href="#" v-if="can('posts.delete')" @click.prevent="deletePost(post.id)"
-                                class="ml-2">Delete</a>
+                                class="ml-2">{{ t("tableActions.Delete") }}</a>
 
                         </td>
 
@@ -218,7 +220,12 @@ import { TailwindPagination } from 'laravel-vue-pagination';
 import usePosts from "@/composables/posts";
 import useCategories from "@/composables/categories";
 import { useAbility } from '@casl/vue'
+// vue-i18n
 
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n({ useScope: 'global' })
+
+//
 const search_category = ref('')
 const search_id = ref('')
 const search_title = ref('')
